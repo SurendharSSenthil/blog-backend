@@ -1,0 +1,141 @@
+User Routes
+
+File Path: Routes/userRoutes.js
+Add User
+
+    Endpoint: POST /api/users/add-user -f
+    Functionality: Adds a new user to the system.
+    Accessibility: Public
+    Controller Function: userController.addUser
+
+Login User
+
+    Endpoint: POST /api/users/login -f
+    Functionality: Authenticates a user and provides a login token.
+    Accessibility: Public
+    Controller Function: userController.loginUser
+
+Get User Details
+
+    Endpoint: GET /api/users/user/:id -f
+    Functionality: Retrieves user details by user ID.
+    Accessibility: Protected (requires authentication)
+    Controller Function: userController.getUser
+
+Delete User
+
+    Endpoint: DELETE /api/users/user/:id -f
+    Functionality: Deletes a user by user ID.
+    Accessibility: Protected (requires authentication)
+    Controller Function: userController.deleteUser
+
+Category Routes
+
+File Path: Routes/categoryRoutes.js
+Create Category
+
+    Endpoint: POST /api/categories -f
+    Functionality: Creates a new category.
+    Accessibility: Protected (requires authentication)
+    Controller Function: categoryController.createCategory
+
+Post Routes
+
+File Path: Routes/postRoutes.js 
+Get All Posts
+
+    Endpoint: GET /api/post -f
+    Functionality: Retrieves all posts.
+    Accessibility: Public
+    Controller Function: postController.getPosts
+
+Create Post
+
+    Endpoint: POST /api/post/posts -f
+    Functionality: Creates a new post.
+    Accessibility: Protected (requires authentication)
+    Controller Function: postController.createPost
+
+Get User's Posts
+
+    Endpoint: GET /api/post/posts/user/:id -f
+    Functionality: Retrieves posts created by a specific user.
+    Accessibility: Public
+    Controller Function: postController.getuserPost
+
+Get Posts by Category
+
+    Endpoint: GET /api/post/posts/category/:category -f
+    Functionality: Retrieves posts by category.
+    Accessibility: Public
+    Controller Function: postController.getPostsByCategory
+
+Update Post
+
+    Endpoint: PUT /api/post/posts/:id -f
+    Functionality: Updates a post by its ID.
+    Accessibility: Protected (requires authentication)
+    Controller Function: postController.updatePost
+
+Like Post
+
+    Endpoint: POST /api/post/like -f
+    Functionality: Likes a post.
+    Accessibility: Protected (requires authentication)
+    Controller Function: postController.likePost
+
+Unlike Post
+
+    Endpoint: POST /api/post/unlike -f
+    Functionality: Unlikes a post.
+    Accessibility: Protected (requires authentication)
+    Controller Function: postController.unlikePost
+
+Delete Post
+
+    Endpoint: DELETE /api/post/:id -f
+    Functionality: Deletes a post by its ID.
+    Accessibility: Protected (requires authentication)
+    Controller Function: postController.deletePost
+
+Comment Routes
+
+File Path: Routes/commentRoutes.js
+Get Comments by Post
+
+    Endpoint: GET /api/comments/post/:postId
+    Functionality: Retrieves all comments for a specific post.
+    Accessibility: Public
+    Controller Function: commentController.getCommentsByPost
+
+Create Comment
+
+    Endpoint: POST /api/comments/comment
+    Functionality: Creates a new comment.
+    Accessibility: Protected (requires authentication)
+    Controller Function: commentController.createComment
+
+Update Comment
+
+    Endpoint: PUT /api/comments/:id
+    Functionality: Updates a comment by its ID.
+    Accessibility: Protected (requires authentication)
+    Controller Function: commentController.updateComment
+
+Delete Comment
+
+    Endpoint: DELETE /api/comments/:id
+    Functionality: Deletes a comment by its ID.
+    Accessibility: Protected (requires authentication)
+    Controller Function: commentController.deleteComment
+
+Like Comment
+
+    Endpoint: POST /api/comments/like
+    Functionality: Likes a comment.
+    Accessibility: Protected (requires authentication)
+    Controller Function: commentController.likeComment
+
+Authentication and Authorization
+
+    Protected Endpoints: Endpoints marked as Protected require authentication. The client must include a valid token in the Authorization header of the request.
