@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('../Models/userModel');
 const Post = require('../Models/postModel');
+const Comment = require('../Models/commentModel');
 
 const getPosts = async (req, res) => {
 	try {
@@ -19,10 +20,18 @@ const getPosts = async (req, res) => {
 const getPost = async (req, res) => {
 	try {
 		const id = req.params.id;
-		const posts = await Post.find({ username: id });
+		console.log(id);
+		const posts = await Post.find({ _id: id });
 		if (posts) {
 			console.log(posts);
-			return res.status(200).send(posts);
+			let comments_res = [];
+			if (posts[0].comments && posts[0].comments.length) {
+				for (const comment of posts[0].comments) {
+					const res = await Comment.find({ _id: comment });
+					comments_res.push(res);
+				}
+			}
+			return res.status(200).json({ posts, comments: comments_res });
 		} else {
 			return res.status(404).send({ message: 'No posts found' });
 		}
@@ -33,25 +42,28 @@ const getPost = async (req, res) => {
 };
 
 const createPost = async (req, res) => {
-	const { title, content, category, username } = req.body;
-	const image = req.file ? req.file.filename : null;
+	const { title, content, imageUrl, userId } = req.body; // Change username to userId
 
 	try {
-		const author = await User.find({ _id: username });
+		// Find the author by userId
+		const author = await User.findById(userId); // Use findById instead of find
 		if (!author) {
 			return res.status(400).send({ message: 'Author not found' });
 		}
 
+		// Create a new post
 		const newPost = new Post({
 			title,
 			content,
-			category,
-			author: username,
-			image,
+			category: req.body.category || '', // Optional category
+			author: userId,
+			image: imageUrl, // Use imageUrl from frontend
 			createdAt: Date.now(),
 		});
 
+		// Save the post to the database
 		await newPost.save();
+
 		res
 			.status(201)
 			.send({ message: 'Post created successfully', post: newPost });

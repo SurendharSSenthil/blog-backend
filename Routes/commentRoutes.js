@@ -7,7 +7,7 @@ const { protect } = require('../middleware/authMiddleware'); // Authentication m
 router.get('/post/:postId', commentController.getCommentsByPost);
 
 // Create a new comment - Protected
-router.post('/comment', protect, commentController.createComment);
+router.post('/comment', commentController.createComment);
 
 // Update a comment by ID - Protected
 router.put('/:id', protect, commentController.updateComment);
@@ -16,6 +16,6 @@ router.put('/:id', protect, commentController.updateComment);
 router.delete('/:id', protect, commentController.deleteComment);
 
 // Like a comment by ID - Protected
-router.post('/like', protect, commentController.likeComment);
+router.post('/like', commentController.likeComment);
 
 module.exports = router;

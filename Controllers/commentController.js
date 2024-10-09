@@ -21,27 +21,42 @@ const getCommentsByPost = async (req, res) => {
 
 // Create a new comment
 const createComment = async (req, res) => {
-	const { content, author, post } = req.body;
+	const { content, userId, postId } = req.body;
+	console.log(req.body);
+
 	try {
-		if (!content || !author || !post) {
+		// Validate input
+		if (!content || !userId || !postId) {
 			return res
 				.status(400)
-				.json({ message: 'Content, author, and post are required' });
+				.json({ message: 'Content, userId, and postId are required' });
 		}
 
-		const user = await User.findById(author);
+		// Check if the user exists
+		const user = await User.findById(userId);
 		if (!user) {
 			return res.status(404).json({ message: 'User is not authenticated' });
 		}
 
+		// Create a new comment
 		const comment = new Comment({
 			content,
-			author,
-			post,
+			author: userId,
+			post: postId,
 			createdAt: Date.now(),
 		});
 
 		await comment.save();
+
+		// Update the post with the new comment
+		const post = await Post.findById(postId);
+		if (!post) {
+			return res.status(404).json({ message: 'Post not found' });
+		}
+
+		post.comments.push(comment._id);
+		await post.save();
+
 		console.log(comment);
 		res.status(201).json({ message: 'Comment saved', comment });
 	} catch (err) {

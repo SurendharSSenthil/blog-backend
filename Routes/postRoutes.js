@@ -10,22 +10,16 @@ router.get('/', postController.getPosts);
 router.get('/post/:id', postController.getPost);
 
 // Create a new post - Admin only
-router.post('/posts', protect, isAdmin, postController.createPost);
-
-// Get posts by a specific user
-router.get('/posts/user/:id', postController.getuserPost);
+router.post('/posts', postController.createPost);
 
 // Get posts by category
 router.get('/posts/category/:category', postController.getPostsByCategory);
 
-// Update a post by ID - Admin only
-router.put('/posts/:id', protect, isAdmin, postController.updatePost);
-
 // Like a post - Protected
-router.post('/like', protect, postController.likePost);
+router.post('/like', postController.likePost);
 
 // Unlike a post - Protected
-router.post('/unlike', protect, postController.unlikePost);
+router.post('/unlike', postController.unlikePost);
 
 // Delete a post by ID - Admin only
 router.delete('/:id', protect, isAdmin, postController.deletePost);
