@@ -57,7 +57,7 @@ const createPost = async (req, res) => {
 			content,
 			category: req.body.category || '', // Optional category
 			author: userId,
-			image: imageUrl, // Use imageUrl from frontend
+			imageUrl,
 			createdAt: Date.now(),
 		});
 
