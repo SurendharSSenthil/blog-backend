@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const commentController = require('../controllers/commentController');
-const { protect } = require('../middleware/authMiddleware'); // Authentication middleware
+const commentController = require('../Controllers/commentController');
+// const { protect } = require('../middleware/authMiddleware'); // Authentication middleware
 
 // Get all comments for a specific post
 router.get('/post/:postId', commentController.getCommentsByPost);
@@ -10,10 +10,10 @@ router.get('/post/:postId', commentController.getCommentsByPost);
 router.post('/comment', commentController.createComment);
 
 // Update a comment by ID - Protected
-router.put('/:id', protect, commentController.updateComment);
+router.put('/:id', commentController.updateComment);
 
-// Delete a comment by ID - Protected
-router.delete('/:id', protect, commentController.deleteComment);
+// Delete a comment by ID - d
+router.delete('/:id', commentController.deleteComment);
 
 // Like a comment by ID - Protected
 router.post('/like', commentController.likeComment);

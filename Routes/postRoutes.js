@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const postController = require('../Controllers/postController');
-const { protect, isAdmin } = require('../middleware/authMiddleware'); // Authentication middleware
+// const { protect, isAdmin } = require('../middleware/authMiddleware'); // Authentication middleware
 
 // Get all posts
 router.get('/', postController.getPosts);
