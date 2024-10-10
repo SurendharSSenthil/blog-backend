@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const postController = require('../controllers/postController');
+const postController = require('../Controllers/postController');
 const { protect, isAdmin } = require('../middleware/authMiddleware'); // Authentication middleware
 
 // Get all posts
@@ -22,6 +22,6 @@ router.post('/like', postController.likePost);
 router.post('/unlike', postController.unlikePost);
 
 // Delete a post by ID - Admin only
-router.delete('/:id', protect, isAdmin, postController.deletePost);
+router.delete('/:id', postController.deletePost);
 
 module.exports = router;
