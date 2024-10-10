@@ -9,10 +9,13 @@ const categoryRoutes = require('./Routes/categoryRoutes');
 require('dotenv').config();
 
 mongoose
-	.connect(process.env.MONGO_URI, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
+	.connect(
+		'mongodb+srv://rahulranesh333:ranesh18@cluster0.6evtgzb.mongodb.net/Blogs',
+		{
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		}
+	)
 	.then(() =>
 		console.log('MongoDB connected with the string', process.env.MONGO_URI)
 	)
