@@ -6,6 +6,7 @@ const userRoutes = require('./Routes/userRoutes');
 const postRoutes = require('./Routes/postRoutes');
 const commentRoutes = require('./Routes/commentRoutes');
 const categoryRoutes = require('./Routes/categoryRoutes');
+const { logRequestDetails } = require('./middleware/logMiddleware');
 require('dotenv').config();
 
 mongoose
@@ -23,6 +24,7 @@ mongoose
 
 app.use(cors());
 app.use(express.json());
+app.use(logRequestDetails);
 app.use('/api/users', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comments', commentRoutes);

@@ -57,8 +57,10 @@ const createComment = async (req, res) => {
 		post.comments.push(comment._id);
 		await post.save();
 
-		console.log(comment);
-		res.status(201).json({ message: 'Comment saved', comment });
+		console.log(comment, user);
+		res
+			.status(201)
+			.json({ message: 'Comment saved', comment, username: user?.username });
 	} catch (err) {
 		console.error('Error at createComment /api/comment', err);
 		res.status(500).json({ message: 'Internal Server Error' });

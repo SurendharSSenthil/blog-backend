@@ -28,9 +28,12 @@ const getPost = async (req, res) => {
 			if (posts[0].comments && posts[0].comments.length) {
 				for (const comment of posts[0].comments) {
 					const res = await Comment.find({ _id: comment });
-					comments_res.push(res);
+					console.log(res);
+					const user = await User.find({ _id: res[0].author });
+					comments_res.push({ res, user });
 				}
 			}
+			console.log({ posts, comments: comments_res });
 			return res.status(200).json({ posts, comments: comments_res });
 		} else {
 			return res.status(404).send({ message: 'No posts found' });
