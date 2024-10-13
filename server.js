@@ -11,7 +11,7 @@ require('dotenv').config();
 
 mongoose
 	.connect(
-		'mongodb+srv://rahulranesh333:ranesh18@cluster0.6evtgzb.mongodb.net/Blogs',
+		'mongodb+srv://surendharsenthil:suren@cluster0.m3lbrmj.mongodb.net/Blogs',
 		{
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
