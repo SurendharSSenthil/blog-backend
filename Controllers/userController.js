@@ -1,11 +1,11 @@
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken'); // Import jwt package
+const jwt = require('jsonwebtoken');
 const Post = require('../Models/postModel');
 const User = require('../Models/userModel');
 const ObjectId = mongoose.Types.ObjectId;
 
-const JWT_SECRET = process.env.JWT_SECRET; // Replace this with a strong secret key
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Function to add a new user
 const addUser = async (req, res) => {
@@ -29,14 +29,14 @@ const addUser = async (req, res) => {
 		}
 
 		// Hash the password
-		const hashedPassword = await bcrypt.hash(password, 10);
+		// const hashedPassword = await bcrypt.hash(password, 10);
 
 		// Create the new user
 		const newUser = new User({
 			username,
 			email,
 			role: 'U',
-			password: hashedPassword,
+			password,
 			createdAt: Date.now(),
 		});
 
@@ -53,7 +53,7 @@ const addUser = async (req, res) => {
 		res.status(201).send({
 			message: 'User created successfully',
 			user: newUser,
-			token, // Send the JWT token back to the client
+			token,
 		});
 	} catch (error) {
 		console.log('Error at addUser /api/user/add-user', error);
@@ -87,7 +87,7 @@ const loginUser = async (req, res) => {
 		}
 
 		// Compare the hashed password with the one provided by the user
-		const isMatch = await bcrypt.compare(password, user.password);
+		const isMatch = user.password === password;
 		if (!isMatch) {
 			return res
 				.status(400)
