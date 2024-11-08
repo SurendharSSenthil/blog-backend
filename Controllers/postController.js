@@ -157,57 +157,62 @@ const getPostsByCategory = async (req, res) => {
 };
 
 const likePost = async (req, res) => {
-	const { postId, userId } = req.body;
-	console.log(postId, userId);
-	try {
-		const post = await Post.findOne({ _id: postId });
-		if (!post) {
-			return res.status(404).send({ message: 'Post not found' });
-		}
-		if (post.likes.length > 0) {
-			if (post.likes.includes(userId)) {
-				post.likes = post.likes.filter((like) => like !== userId);
-				await post.save();
-				console.log(post);
-				return res.status(200).send({ message: 'Post liked' });
-			}
-		} else {
-			if (post.dislikes.includes(userId)) {
-				post.dislikes = post.dislikes.filter((dislike) => dislike != userId);
-			}
-			post.likes.push(userId);
-			await post.save();
-			console.log(post);
-			return res.status(200).send({ message: 'Post liked' });
-		}
-	} catch (error) {
-		console.error('Error at likePost /api/posts/like', error);
-		res.status(500).send({ message: 'Server error' });
-	}
+    const { postId, userId } = req.body;
+    console.log(postId, userId);
+    try {
+        const post = await Post.findOne({ _id: postId });
+        if (!post) {
+            return res.status(404).send({ message: 'Post not found' });
+        }
+		console.log('hi')
+        // Check if user already liked the post
+        if (post.likes.includes(userId)) {
+            // Remove like
+            post.likes = post.likes.filter((like) => like !== userId);
+            await post.save();
+            console.log(post);
+            return res.status(200).send({ message: 'Post unliked' });
+        } else {
+            // Remove from dislikes if present and add to likes
+            post.dislikes = post.dislikes.filter((dislike) => dislike !== userId);
+            post.likes.push(userId);
+            await post.save();
+            console.log(post);
+            return res.status(200).send({ message: 'Post liked' });
+        }
+    } catch (error) {
+        console.error('Error at likePost /api/posts/like', error);
+        res.status(500).send({ message: 'Server error' });
+    }
 };
 
 const unlikePost = async (req, res) => {
-	const { userId, postId } = req.body;
-	try {
-		const post = await Post.findOne({ _id: postId });
-		if (!post) {
-			return res.status(404).send({ message: 'Post not found' });
-		}
-		if (post.dislikes.includes(userId)) {
-			return res.status(200).send({ message: 'Post disliked' });
-		} else {
-			if (post.likes.includes(userId)) {
-				post.likes = post.likes.filter((like) => like != userId);
-			}
-			post.dislikes.push(userId);
-			await post.save();
-			console.log(post);
-			res.status(200).send({ message: 'Post disliked' });
-		}
-	} catch (error) {
-		console.error('Error at unlikePost /api/posts/unlike', error);
-		res.status(500).send({ message: 'Server error' });
-	}
+    const { userId, postId } = req.body;
+    try {
+        const post = await Post.findOne({ _id: postId });
+        if (!post) {
+            return res.status(404).send({ message: 'Post not found' });
+        }
+
+        // Check if user already disliked the post
+        if (post.dislikes.includes(userId)) {
+            // Remove dislike
+            post.dislikes = post.dislikes.filter((dislike) => dislike !== userId);
+            await post.save();
+            console.log(post);
+            return res.status(200).send({ message: 'Post undisliked' });
+        } else {
+            // Remove from likes if present and add to dislikes
+            post.likes = post.likes.filter((like) => like !== userId);
+            post.dislikes.push(userId);
+            await post.save();
+            console.log(post);
+            return res.status(200).send({ message: 'Post disliked' });
+        }
+    } catch (error) {
+        console.error('Error at unlikePost /api/posts/unlike', error);
+        res.status(500).send({ message: 'Server error' });
+    }
 };
 
 module.exports = {
