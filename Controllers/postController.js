@@ -197,16 +197,23 @@ const unlikePost = async (req, res) => {
         if (!post) {
             return res.status(404).send({ message: "Post not found" });
         }
+
+        // Check if user already disliked the post
         if (post.dislikes.includes(userId)) {
-            return res.status(200).send({ message: "Post disliked" });
+            // Remove dislike
+            post.dislikes = post.dislikes.filter(
+                (dislike) => dislike !== userId
+            );
+            await post.save();
+            console.log(post);
+            return res.status(200).send({ message: "Post undisliked" });
         } else {
-            if (post.likes.includes(userId)) {
-                post.likes = post.likes.filter((like) => like != userId);
-            }
+            // Remove from likes if present and add to dislikes
+            post.likes = post.likes.filter((like) => like !== userId);
             post.dislikes.push(userId);
             await post.save();
             console.log(post);
-            res.status(200).send({ message: "Post disliked" });
+            return res.status(200).send({ message: "Post disliked" });
         }
     } catch (error) {
         console.error("Error at unlikePost /api/posts/unlike", error);
